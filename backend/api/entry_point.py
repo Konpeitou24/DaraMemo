@@ -1,3 +1,6 @@
+# API全体のエントリポイント
+# Flaskアプリケーションを初期化し、ルーティングを設定する
+
 from flask import Flask
 from api.routes import break_routes
 
