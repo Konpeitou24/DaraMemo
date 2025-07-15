@@ -9,7 +9,7 @@
 ```
 main
 └─ develop
-    ├─ feat/...
+    ├─ feature/...
     ├─ fix/...
     ├─ docs/...
     └─ refactor/...
@@ -23,7 +23,7 @@ main
 |----------------|---------------------------|----------------------------------------------|
 | `main`         | 最終成果物用ブランチ      | 発表直前にマージ。常に動作可能な状態を保つ |
 | `develop`      | 開発統合ブランチ          | 作業ブランチのマージ先                       |
-| `feat/*`       | 機能追加用の作業ブランチ  | 例: `feat/toast-notification`              |
+| `feature/*`       | 機能追加用の作業ブランチ  | 例: `feature/toast-notification`              |
 | `fix/*`        | バグ修正用の作業ブランチ  | 例: `fix/api-response-bug`                 |
 | `docs/*`       | ドキュメント更新用        | 例: `docs/architecture-summary`            |
 | `refactor/*`   | リファクタリング用        | 例: `refactor/backend-cleanup`             |
@@ -34,7 +34,7 @@ main
 
 - すべての作業は `develop` からブランチを切ること
 - コミットは原則 [Conventional Commits](https://www.conventionalcommits.org/ja/v1.0.0/) に従う
-  - 例: `feat(frontend): トースト通知を実装`
+  - 例: `feature(frontend): トースト通知を実装`
 - Pull Request（PR）で `develop` にマージ
 - `main` は保護ブランチとし、PR経由でのみ更新可とする
 
@@ -44,7 +44,7 @@ main
 
 | 内容 | コマンド例 |
 |------|------------|
-| 作業ブランチの作成 | `git checkout -b feat/xxx` |
+| 作業ブランチの作成 | `git checkout -b feature/xxx` |
 | リモートの最新取得 | `git fetch --prune` |
 | `develop` の最新取得 | `git pull origin develop` |
 
