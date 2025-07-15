@@ -2,7 +2,7 @@ import logging
 import time
 
 class Application:
-# region Appication Class Properties
+# region Application Class Properties
     """アプリケーションの実行管理を担当するクラス"""
 
     should_run: bool
@@ -13,7 +13,7 @@ class Application:
 
 # endregion
 
-# region Appication Class Initialization
+# region Application Class Initialization
     def __init__(self, fps: float = 60):
         """
         アプリケーションの初期化
@@ -27,7 +27,7 @@ class Application:
         self.should_run = False
 # endregion
 
-# region Appication Class Methods
+# region Application Class Methods
     def run(self):
         """アプリケーションのメイン処理を実行する"""
         logging.info("Application is starting...")
