@@ -1,14 +1,3 @@
-<<<<<<< HEAD
-# start.ps1
-
-# スクリプトのあるディレクトリに移動
-Set-Location -Path $PSScriptRoot 
-if ($?) {
-    # Python 実行
-    python ./main.py
-} else {
-    Write-Host "Failed to change directory to $PSScriptRoot"
-=======
 # 元のカレントディレクトリを保存
 $originalLocation = Get-Location
 
@@ -41,5 +30,4 @@ try {
 finally {
     # 元のカレントディレクトリに戻す
     Set-Location -Path $originalLocation
->>>>>>> chore/launch-script-ps1
 }

@@ -8,14 +8,16 @@ class Api:
     """APIサーバーのエントリポイント"""
 
     routes: list[tuple[str, Callable]] = [
-        """APIサーバーの、どのコマンドをどの関数を対応させるかの情報"""
+        
         # ここにルートを追加
         # ("/", home_handler),
     ]
+    """APIサーバーの、どのコマンドをどの関数を対応させるかの情報"""
 
+    
     app: Flask
     """Flaskアプリケーションのインスタンス"""
-    
+
     def __init__(self):
         """Flaskアプリケーションの初期化とルーティングの設定"""
         self.app = Flask(__name__)
