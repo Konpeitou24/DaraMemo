@@ -1,5 +1,5 @@
 from plyer import notification
-from shared.constants.AppResources import AppResources
+from backend.shared.constants.app_resources import AppResources
 class Notifier:
     """様々な通知を行うためのクラス"""
     title: str

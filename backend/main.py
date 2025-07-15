@@ -1,9 +1,11 @@
-import threading
-import app.entry_point as app_main
-import api.entry_point as api_main
+from backend.core.runtime import Runtime
+import logging
+
+def main():
+    """メイン関数"""
+    runtime = Runtime()
+    runtime.run()
 
 if __name__ == "__main__":
-    # 処理をブロックせずにローカルのAPIサーバーを起動
-    threading.Thread(target=api_main.start_api_server, daemon=True).start()
-    # アプリケーションのメイン処理を実行
-    app_main.run()
+    logging.basicConfig(level=logging.INFO)
+    main()
