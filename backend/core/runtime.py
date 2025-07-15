@@ -21,22 +21,19 @@ class Runtime:
         self.api = Api()
 
     def run(self):
-        """アプリケーションとAPIサーバーを並列に起動し、監視する"""
         logging.info("Runtime: starting Application and API")
 
-        # APIサーバーを先に起動（別スレッド）
         self.api.run()
-
-        # アプリケーション側を別スレッドで起動（例: blockingなメインループ）
         self._app_thread = threading.Thread(target=self.application.run)
         self._app_thread.start()
 
-        # アプリケーション終了を待機
-        self._app_thread.join()
-
-        # アプリケーションが止まったらAPIも止める
-        logging.info("Runtime: Application stopped, shutting down API")
-        self.api.shutdown()
-
-        logging.info("Runtime: shutdown complete")
-
+        try:
+            while self._app_thread.is_alive():
+                self._app_thread.join(timeout=0.5)  # Ctrl+Cを拾いやすくする
+        except KeyboardInterrupt:
+            logging.info("Runtime: Ctrl+C detected, stopping application...")
+            self.application.shutdown()
+        finally:
+            logging.info("Runtime: Application stopped, shutting down API")
+            self.api.shutdown()
+            logging.info("Runtime: shutdown complete")
