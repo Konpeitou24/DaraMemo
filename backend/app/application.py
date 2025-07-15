@@ -4,6 +4,7 @@ import time
 class Application:
 # region Appication Class Properties
     """アプリケーションの実行管理を担当するクラス"""
+
     should_run: bool
     """アプリケーションの実行フラグ: Trueならアプリケーションは実行中"""
 
@@ -11,6 +12,8 @@ class Application:
     """アプリケーションの更新間隔（秒単位）"""
 
 # endregion
+
+# region Appication Class Initialization
     def __init__(self, fps: float = 60):
         """
         アプリケーションの初期化
@@ -22,7 +25,9 @@ class Application:
             raise ValueError("fps must be greater than 0")
         self.tick_interval = 1 / fps
         self.should_run = False
+# endregion
 
+# region Appication Class Methods
     def run(self):
         """アプリケーションのメイン処理を実行する"""
         logging.info("Application is starting...")
@@ -39,3 +44,4 @@ class Application:
         while self.should_run:
             logging.info("Application is running...")
             time.sleep(self.tick_interval)
+# endregion
