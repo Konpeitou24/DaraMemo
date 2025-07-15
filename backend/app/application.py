@@ -2,16 +2,22 @@ import logging
 import time
 
 class Application:
-    """アプリケーションのルーティング情報"""
+    """アプリケーションの実行管理を担当するクラス"""
     should_run: bool
     """アプリケーションの実行フラグ: Trueならアプリケーションは実行中"""
-    def __init__(self):
-        """アプリケーションの初期化"""
-        self.should_run = True
+    def __init__(self, tick_interval: float = 1.0):
+        """
+        アプリケーションの初期化
+
+        Args:
+            tick_interval (float): メインループの1フレームあたりの秒数（デフォルトは1秒）
+        """
+        self.tick_interval = tick_interval
 
     def run(self):
         """アプリケーションのメイン処理を実行する"""
         logging.info("Application is starting...")
+        self.should_run = True
         self._main_loop()
     
     def shutdown(self):
@@ -23,4 +29,4 @@ class Application:
         """アプリケーションのメインループ"""
         while self.should_run:
             logging.info("Application is running...")
-            time.sleep(1)  # ここに実際の処理を追加
+            time.sleep(self.tick_interval)
