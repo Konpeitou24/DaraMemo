@@ -1,6 +1,6 @@
 import threading
-from backend.app.application import Application
-from backend.api.api import Api
+from app.application import Application
+from api.api import Api
 import logging
 
 class Runtime:

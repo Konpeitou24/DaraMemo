@@ -1,4 +1,4 @@
-from backend.core.runtime import Runtime
+from core.runtime import Runtime
 import logging
 
 def main():
