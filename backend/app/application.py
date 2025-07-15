@@ -2,17 +2,26 @@ import logging
 import time
 
 class Application:
+# region Appication Class Properties
     """アプリケーションの実行管理を担当するクラス"""
     should_run: bool
     """アプリケーションの実行フラグ: Trueならアプリケーションは実行中"""
-    def __init__(self, tick_interval: float = 1.0):
+
+    tick_interval: float
+    """アプリケーションの更新間隔（秒単位）"""
+
+# endregion
+    def __init__(self, fps: float = 60):
         """
         アプリケーションの初期化
 
         Args:
-            tick_interval (float): メインループの1フレームあたりの秒数（デフォルトは1秒）
+            fps (float): 1秒あたりのフレーム（更新）回数（デフォルトは60）
         """
-        self.tick_interval = tick_interval
+        if fps <= 0:
+            raise ValueError("fps must be greater than 0")
+        self.tick_interval = 1 / fps
+        self.should_run = False
 
     def run(self):
         """アプリケーションのメイン処理を実行する"""
