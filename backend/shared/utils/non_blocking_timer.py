@@ -1,7 +1,7 @@
 import logging
 import threading
 import time
-from typing import overload
+from typing import Callable, overload, List, Union
 
 class NonBlockingTimer:
     """非ブロッキングタイマーを実装するクラス"""
@@ -9,14 +9,14 @@ class NonBlockingTimer:
     interval: float
     """タイマーの間隔（秒単位）"""
 
-    callbacks: list[callable]
+    callbacks: List[Callable]
     """タイマーが終了したときに呼び出されるコールバック関数のリスト"""
 
     should_tick: bool
     """タイマーが実行中かどうかのフラグ"""
     
     @overload
-    def __init__(self, interval: float, callback: callable):
+    def __init__(self, interval: float, callback: Callable):
         """
         コンストラクタ
         
@@ -26,7 +26,7 @@ class NonBlockingTimer:
 
     
     @overload
-    def __init__(self, interval: float, callbacks: list[callable]):
+    def __init__(self, interval: float, callbacks: List[Callable]):
         """
         コンストラクタ
         
@@ -34,7 +34,9 @@ class NonBlockingTimer:
         :param callbacks: タイマーが終了したときに呼び出されるコールバック関数のリスト
         """
 
-    def __init__(self, interval: float, callback: callable | list[callable]):
+    def __init__(self, interval: float, callback: Union[Callable, List[Callable]]):
+
+
         """
         コンストラクタ
         

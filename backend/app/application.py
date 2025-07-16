@@ -30,7 +30,7 @@ class Application:
         self.tick_interval = 1 / fps
         self.should_run = False
 
-        self.timer = NonBlockingTimer(self.tick_interval, self._main_loop)
+        self.timer = NonBlockingTimer(self.tick_interval, self._on_tick)
 # endregion
 
 # region Application Class Methods
@@ -51,4 +51,8 @@ class Application:
         while self.should_run:
             logging.info("Application is running...")
             time.sleep(self.tick_interval)
+    def _on_tick(self):
+        """タイマーのコールバック関数"""
+        if self.should_run:
+            logging.info("Timer tick occurred.")
 # endregion
