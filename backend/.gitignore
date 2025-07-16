@@ -3,3 +3,6 @@ venv/
 .env/
 __pycache__/
 *.pyc
+
+# Nuitkaのビルドエラーログを除外
+nuitka-crash-report.xml

@@ -36,19 +36,10 @@ try {
         New-Item -ItemType Directory -Path "./bin"
     }
     # Nuitka を使って Python スクリプトをビルド
-    python -m nuitka .\main.py `
-        --standalone `
-        --onefile `
-        --include-data-dir=templates=templates `
-        --include-data-dir=static=static `
-        --output-dir=./bin `
-        --windows-disable-console `
-        --enable-plugin=flask `
-        --enable-plugin=pylint-warnings `
-        --nofollow-import-to=tkinter `
-        --include-package=jinja2 `
-        --include-package-data=jinja2 `
-        --include-package-data=flask
+    python -m nuitka ./main.py `
+    --onefile `
+    --windows-console-mode=disable `
+    --output-dir=bin
 }
 finally {
     # 元のカレントディレクトリに戻す
