@@ -1,7 +1,7 @@
 import logging
 import time
 
-from backend.shared.utils.non_blocking_timer import NonBlockingTimer
+from shared.utils.non_blocking_timer import NonBlockingTimer
 
 class Application:
 # region Application Class Properties
@@ -14,7 +14,7 @@ class Application:
     """アプリケーションの更新間隔（秒単位）"""
 
     timer: NonBlockingTimer
-    
+
 # endregion
 
 # region Application Class Initialization
@@ -43,6 +43,7 @@ class Application:
     def shutdown(self):
         """アプリケーションの実行を停止する"""
         logging.info("Application is stopping...")
+        self.timer.stop()
         self.should_run = False
 
     def _main_loop(self):
