@@ -36,12 +36,13 @@ class Interval:
             logging.warning(f"Negative interval value detected for {unit.value}: {value}")
             raise ValueError(f"{unit.value.capitalize()} must be non-negative")
 
-    # よく使う定数（秒単位）
-    ONE_SECOND = from_seconds.__func__(1)
-    HALF_SECOND = from_seconds.__func__(0.5)
-    ONE_MINUTE = from_minutes.__func__(1)
-    FIVE_MINUTES = from_minutes.__func__(5)
-    TEN_SECONDS = from_seconds.__func__(10)
-    ONE_HOUR = from_hours.__func__(1)
-    THIRTY_SECONDS = from_seconds.__func__(30)
-    TWO_MINUTES = from_minutes.__func__(2)
+
+# ✅ クラス定義後に定数を追加（安全）
+Interval.ONE_SECOND = Interval.from_seconds(1)
+Interval.HALF_SECOND = Interval.from_seconds(0.5)
+Interval.ONE_MINUTE = Interval.from_minutes(1)
+Interval.FIVE_MINUTES = Interval.from_minutes(5)
+Interval.TEN_SECONDS = Interval.from_seconds(10)
+Interval.ONE_HOUR = Interval.from_hours(1)
+Interval.THIRTY_SECONDS = Interval.from_seconds(30)
+Interval.TWO_MINUTES = Interval.from_minutes(2)

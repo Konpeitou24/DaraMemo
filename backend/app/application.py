@@ -1,6 +1,7 @@
 import logging
 import time
 
+from shared.utils.interval import Interval
 from shared.utils.non_blocking_timer import NonBlockingTimer
 
 class Application:
@@ -30,7 +31,7 @@ class Application:
         self.tick_interval = 1 / fps
         self.should_run = False
 
-        self.timer = NonBlockingTimer(self.tick_interval, self._on_tick)
+        self.timer = NonBlockingTimer(interval = Interval.ONE_SECOND, callback=self._on_tick)
 # endregion
 
 # region Application Class Methods
@@ -38,6 +39,7 @@ class Application:
         """アプリケーションのメイン処理を実行する"""
         logging.info("Application is starting...")
         self.should_run = True
+        self.timer.start()
         self._main_loop()
     
     def shutdown(self):
@@ -54,5 +56,5 @@ class Application:
     def _on_tick(self):
         """タイマーのコールバック関数"""
         if self.should_run:
-            logging.info("Timer tick occurred.")
+            logging.info("Application Timer tick occurred.")
 # endregion
