@@ -7,41 +7,52 @@
 
 # 元のカレントディレクトリを保存
 $originalLocation = Get-Location
-
-# スクリプトのあるディレクトリの1階層上（プロジェクトルート）に移動
 Set-Location $PSScriptRoot
-Write-Host $PSScriptRoot
+Write-Host "[INFO] スクリプトのディレクトリに移動: $PSScriptRoot"
+
+$venvActivated = $false
 
 try {
     # 仮想環境の候補パス一覧
     $venvCandidates = @(
-        ".venv\Scripts\Activate.ps1",   # 一般的なパターン1
-        "venv\Scripts\Activate.ps1",    # venvという名前（VSCodeなど）
-        "env\Scripts\Activate.ps1",     # 古いプロジェクトや他ツールで作成
-        ".env\Scripts\Activate.ps1"     # 隠しディレクトリ形式
+        ".venv\Scripts\Activate.ps1",
+        "venv\Scripts\Activate.ps1",
+        "env\Scripts\Activate.ps1",
+        ".env\Scripts\Activate.ps1"
     )
 
     foreach ($activatePath in $venvCandidates) {
-        $joinedPath = Join-Path $PSScriptRoot $activatePath
-        if (Test-Path $joinedPath) {
-            Write-Host "仮想環境を有効化します: $joinedPath"
-            & $joinedPath
+        $fullPath = Join-Path $PSScriptRoot $activatePath
+        if (Test-Path $fullPath) {
+            Write-Host "[INFO] 仮想環境が見つかりました。仮想環境を有効化します: $fullPath"
+            & $fullPath
+            $venvActivated = $true
             break
         } else {
-            Write-Host "仮想環境が見つかりませんでした（試行済み: $joinedPath）"
+            Write-Host "[WARN] 仮想環境が見つかりません: $fullPath"
         }
     }
-    # bin ディレクトリが存在しない場合は作成
-    if (-not (Test-Path -Path "./bin")) {
-        New-Item -ItemType Directory -Path "./bin"
+
+    if (-not $venvActivated) {
+        Write-Host "[ERROR] 仮想環境が見つかりませんでした。ビルドを中止します。"
+        return
     }
-    # Nuitka を使って Python スクリプトをビルド
+
+    # bin ディレクトリがなければ作成
+    if (-not (Test-Path -Path "./bin")) {
+        New-Item -ItemType Directory -Path "./bin" | Out-Null
+        Write-Host "[INFO] ./bin ディレクトリを作成しました。"
+    }
+
+    # Nuitka ビルドコマンド
+    Write-Host "[INFO] Nuitka によるビルドを開始します..."
     python -m nuitka ./main.py `
-    --onefile `
-    --windows-console-mode=disable `
-    --output-dir=bin
+        --onefile `
+        --windows-console-mode=disable `
+        --output-dir=bin
+    Write-Host "[SUCCESS] ビルドが完了しました。./bin に出力されました。"
 }
 finally {
-    # 元のカレントディレクトリに戻す
     Set-Location -Path $originalLocation
+    Write-Host "[INFO] 元のディレクトリに戻りました: $originalLocation"
 }
