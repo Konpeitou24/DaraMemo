@@ -44,8 +44,9 @@ class Application:
     
     def shutdown(self):
         """アプリケーションの実行を停止する"""
-        logging.info("Application is stopping...")
+        logging.info("Application's Timer is stopping...")
         self.timer.stop()
+        logging.info("Application is stopping...")
         self.should_run = False
 
     def _main_loop(self):
