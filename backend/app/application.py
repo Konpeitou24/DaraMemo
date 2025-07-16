@@ -1,6 +1,8 @@
 import logging
 import time
 
+from backend.shared.utils.non_blocking_timer import NonBlockingTimer
+
 class Application:
 # region Application Class Properties
     """アプリケーションの実行管理を担当するクラス"""
@@ -11,6 +13,8 @@ class Application:
     tick_interval: float
     """アプリケーションの更新間隔（秒単位）"""
 
+    timer: NonBlockingTimer
+    
 # endregion
 
 # region Application Class Initialization
@@ -25,6 +29,8 @@ class Application:
             raise ValueError("fps must be greater than 0")
         self.tick_interval = 1 / fps
         self.should_run = False
+
+        self.timer = NonBlockingTimer(self.tick_interval, self._main_loop)
 # endregion
 
 # region Application Class Methods
