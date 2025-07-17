@@ -14,3 +14,7 @@ class Notifier:
             app_name=AppResources.TITLE.value,
             timeout=timeout
         )
+    # TODO : バルーン通知を実装する
+    # TODO : システムトレイ通知を実装する
+    # TODO : 音声通知を実装する
+    # TODO : メール通知を実装する
