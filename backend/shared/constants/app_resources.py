@@ -1,6 +1,6 @@
 from enum import Enum
 
-class AppResources(Enum, str):
+class AppResources(str, Enum):
     """アプリケーションのリソースを定義するEnumクラス"""
     # Define your application resources here
     TITLE = "DaraMemo"
