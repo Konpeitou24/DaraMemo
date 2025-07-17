@@ -8,9 +8,7 @@ class Api:
     """APIサーバーのエントリポイント"""
 
     routes: list[tuple[str, Callable]] = [
-        
-        # ここにルートを追加
-        # ("/", home_handler),
+        # TODO: ルートとハンドラのタプルを追加（例: ("/set-break", lambda: jsonify({"ok": True}))）
     ]
     """APIサーバーの、どのコマンドをどの関数を対応させるかの情報"""
 
