@@ -11,6 +11,6 @@ class Notifier:
         notification.notify(
             title=self.title,
             message=message,
-            app_name=AppResources.Title.value,
+            app_name=AppResources.TITLE.value,
             timeout=timeout
         )
