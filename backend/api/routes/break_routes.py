@@ -2,7 +2,4 @@ from flask import Blueprint
 
 bp = Blueprint("break_routes", __name__)
 
-# 必要になったらここにルート追加
-# @bp.route("/set-break", methods=["POST"])
-# def set_break():
-#     ...
+# TODO: 手動による休憩を記録するための POST /set-break ルートを追加する
