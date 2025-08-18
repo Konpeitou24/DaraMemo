@@ -6,6 +6,7 @@ import asyncio
 from fastapi import FastAPI
 import uvicorn
 
+from api.routes.health import router as health_router
 
 class Api:
     """APIサーバーのエントリポイント（FastAPI版）"""
@@ -28,15 +29,11 @@ class Api:
 
     def _register_routes(self):
         """FastAPIアプリケーションにルートを登録する（同期/非同期どちらのハンドラにも対応）"""
-        for path, handler in self.routes:
-            if asyncio.iscoroutinefunction(handler):
-                # async def handler(...)
-                self.app.add_api_route(path, handler, methods=["GET"])
-            else:
-                # def handler(...): -> wrap して非同期化
-                async def _wrap(h=handler):
-                    return h()
-                self.app.add_api_route(path, _wrap, methods=["GET"])
+        self.app.include_router(health_router) # ヘルスチェック用のルータを追加
+        logging.info("Registered routes")
+
+
+# 起動と停止
 
     def run(self, host: str = "127.0.0.1", port: int = 5000):
         """APIサーバーを非ブロッキングで起動する（別スレッド）"""
