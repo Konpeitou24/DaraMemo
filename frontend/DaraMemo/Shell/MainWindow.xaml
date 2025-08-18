@@ -1,16 +1,63 @@
 ﻿<Window x:Class="DaraMemo.Shell.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:DaraMemo"
-        mc:Ignorable="d"
-        Title="{Binding Title}" d:DesignHeight="450" d:DesignWidth="400">
-    <TabControl>
-        <TabItem Header="Home">
-            <StackPanel>
-                <Label Content="Welcome to DaraMemo!" Margin="10"/>
-            </StackPanel>
-        </TabItem>
-    </TabControl>
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+        Title="{Binding Title}" Width="400" Height="700">
+    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" CanContentScroll="True">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <!-- Homeセクション -->
+            <Expander Grid.Row="0" Header="{Binding StatusHeaderTitle, FallbackValue='Status'}" IsExpanded="True" Margin="5">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Label Grid.Row="0" Content="Welcome to DaraMemo!" Margin="10"/>
+                    <Label Grid.Row="1" FontSize="24" 
+                       Content="{Binding AfkStatus, FallbackValue='AfkStatus'}" 
+                       Margin="10" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                    <Button Grid.Row="2" 
+                        Content="{Binding BreakButtonTitle, FallbackValue='BreakButtonTitle'}" 
+                        Margin="10"/>
+                </Grid>
+            </Expander>
+
+            <!-- Recordセクション -->
+            <Expander Grid.Row="1" Header="{Binding RecordHeaderTitle, FallbackValue='Record'}" IsExpanded="False" Margin="5">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition/>
+
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+
+                    <Label Grid.Row="0" Content="{Binding ActiveTimeSumTitle, FallbackValue='ActiveTimeSum'}" Margin="10"/>
+                    <Label Grid.Row="1" FontSize="24" 
+                       Content="{Binding ActiveTimeSum, FallbackValue='0:00:00'}" 
+                       Margin="10" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                    <Label Grid.Row="2" Content="{Binding AfkTimeSumTitle, FallbackValue='AfkTimeSum'}" Margin="10"/>
+                    <Label Grid.Row="3" FontSize="24" 
+                       Content="{Binding AfkTimeSum, FallbackValue='0:00:00'}" 
+                       Margin="10" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                    <Label Grid.Row="4" Content="{Binding BreakTimeSumTitle, FallbackValue='BreakTimeSum'}" Margin="10"/>
+                    <Label Grid.Row="5" FontSize="24" 
+                       Content="{Binding BreakTimeSum, FallbackValue='0:00:00'}" 
+                       Margin="10" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                    <Button Grid.Row="6" >
+                        <iconPacks:PackIconCoolicons Kind="ArrowReload02" Foreground="{DynamicResource {x:Static SystemColors.AccentColorBrushKey}}"/>
+                    </Button>
+                </Grid>
+            </Expander>
+        </Grid>
+    </ScrollViewer>
+
 </Window>
