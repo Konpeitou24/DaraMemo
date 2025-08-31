@@ -9,6 +9,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DaraMemo.Core", "DaraMemo.C
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DaraMemo.Tests", "DaraMemo.Tests\DaraMemo.Tests.csproj", "{758715E5-688A-4102-A175-AB563ED48B1A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DaraMemo.Models", "DaraMemo.Models\DaraMemo.Models.csproj", "{C75EB525-A175-1FD0-0D7F-82BE3C56A81B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Enums", "Enums\Enums.csproj", "{ECE03ED3-69EF-4214-B78E-82C7EC7A1C51}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +31,14 @@ Global
 		{758715E5-688A-4102-A175-AB563ED48B1A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{758715E5-688A-4102-A175-AB563ED48B1A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{758715E5-688A-4102-A175-AB563ED48B1A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C75EB525-A175-1FD0-0D7F-82BE3C56A81B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C75EB525-A175-1FD0-0D7F-82BE3C56A81B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C75EB525-A175-1FD0-0D7F-82BE3C56A81B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C75EB525-A175-1FD0-0D7F-82BE3C56A81B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ECE03ED3-69EF-4214-B78E-82C7EC7A1C51}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ECE03ED3-69EF-4214-B78E-82C7EC7A1C51}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ECE03ED3-69EF-4214-B78E-82C7EC7A1C51}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ECE03ED3-69EF-4214-B78E-82C7EC7A1C51}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

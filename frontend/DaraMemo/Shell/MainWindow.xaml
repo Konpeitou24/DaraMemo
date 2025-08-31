@@ -27,8 +27,7 @@
                        Content="{Binding AfkStatus, FallbackValue='AfkStatus'}" 
                        Margin="10" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
                         <Button Grid.Row="2" 
-                        Content="{Binding BreakButtonTitle, FallbackValue='BreakButtonTitle'}" 
-                        Margin="10"/>
+                        Content="{Binding BreakButtonTitle, FallbackValue='BreakButtonTitle'}"  Margin="10"/>
                     </Grid>
                 </Expander>
 
@@ -56,7 +55,6 @@
                         <Label Grid.Row="5" FontSize="24" 
                        Content="{Binding BreakTimeSum, FallbackValue='0:00:00'}" 
                        Margin="10" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-
                     </Grid>
                 </Expander>
             </Grid>

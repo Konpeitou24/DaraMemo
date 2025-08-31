@@ -17,6 +17,7 @@ namespace DaraMemo.Shell {
         public MainWindow(MainWindowViewModel mainWindowViewModel) {
             InitializeComponent();
             DataContext = mainWindowViewModel;
+
         }
     }
 }
