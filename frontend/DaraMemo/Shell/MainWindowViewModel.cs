@@ -1,10 +1,12 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
-using System;
+﻿using System;
 using System.Windows;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using DaraMemo.Services;
 
 namespace DaraMemo.Shell {
     public partial class MainWindowViewModel : ObservableObject {
+        private readonly INotifyIconService _notifyIconService;
         [ObservableProperty]
         private string title = MainResources.Title;
 
@@ -43,7 +45,8 @@ namespace DaraMemo.Shell {
         [ObservableProperty]
         private TimeSpan breakTimeSum = TimeSpan.Zero;
 
-        public MainWindowViewModel() {
+        public MainWindowViewModel(NotifyIconService notifyIconService) {
+            _notifyIconService = notifyIconService;
         }
 
         // Reloadボタン
