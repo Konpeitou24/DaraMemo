@@ -103,7 +103,7 @@
                              Content="閉じるボタンでタスクトレイに格納する"
                              Cursor="Hand"
                              FontSize="16"
-                             IsChecked="{Binding IsTaskTray}" />
+                             IsChecked="{Binding IsClosedTaskTray}" />
                         <CheckBox VerticalContentAlignment="Center"
                              Content="最小化時にタスクトレイに格納する"
                              Cursor="Hand"
