@@ -2,11 +2,25 @@ from typing import Callable
 import logging
 import threading
 import asyncio
+from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
 import uvicorn
 
 from api.routes.health import router as health_router
+from api.routes.endpoints import router as endpoints_router
+from api.Observer import get_monitor
+
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    mon = get_monitor(threshold_idle_sec=300, poll_interval=1.0)
+    mon.start()
+    try:
+        yield
+    finally:
+        mon.stop()
+
 
 class Api:
     """APIサーバーのエントリポイント（FastAPI版）"""
@@ -22,7 +36,7 @@ class Api:
 
     def __init__(self):
         """FastAPIアプリケーションの初期化とルーティングの設定"""
-        self.app = FastAPI(title="DaraMemo API", version="1.0.0")
+        self.app = FastAPI(title="DaraMemo API", version="1.0.0", lifespan=lifespan)
         self._register_routes()
         self._server: uvicorn.Server | None = None
         self._thread: threading.Thread | None = None
@@ -30,6 +44,7 @@ class Api:
     def _register_routes(self):
         """FastAPIアプリケーションにルートを登録する（同期/非同期どちらのハンドラにも対応）"""
         self.app.include_router(health_router) # ヘルスチェック用のルータを追加
+        self.app.include_router(endpoints_router)  # エンドポイント用ルータを追加
         logging.info("Registered routes")
 
 
