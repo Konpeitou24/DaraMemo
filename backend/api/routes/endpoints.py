@@ -23,6 +23,7 @@ router = APIRouter(prefix="/api/status", tags=["endpoints"])
 async def current_status(request: Request):
     mon = request.app.state.monitor
     status = mon.snapshot()
+    logger.info(f"Get request({status})")
     return JSONResponse(content=status)
 
 
