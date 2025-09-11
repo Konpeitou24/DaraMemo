@@ -56,7 +56,6 @@ class IdleMonitor:
         self._idle_seconds: float = 0.0
         self._state: IdleState = IdleState.ACTIVE
         self._last_change: datetime = datetime.now(timezone.utc)
-        self._is_break: bool = False
 
     def snapshot(self) -> str:
         with self._lock:
@@ -80,24 +79,22 @@ class IdleMonitor:
 
     def _run(self):
         while not self._stop.is_set():
-            if self._state == IdleState.BREAK:
-                continue
+            if self._state != IdleState.BREAK:
+                try:
+                    idle = get_idle_seconds_windows()
+                except Exception:
+                    time.sleep(2.0)
+                    continue
 
-            try:
-                idle = get_idle_seconds_windows()
-            except Exception:
-                time.sleep(2.0)
-                continue
+                with self._lock:
+                    self._idle_seconds = idle
 
-            with self._lock:
-                self._idle_seconds = idle
+                    now_state = IdleState.ACTIVE if idle < self.threshold else IdleState.AFK
 
-                now_state = IdleState.ACTIVE if idle < self.threshold else IdleState.AFK
-
-                if now_state != self._state:
-                    self._state = now_state
-                    self._last_change = datetime.now(timezone.utc)
-                    logger.info(f"[{self._state.value}] Change status")
+                    if now_state != self._state:
+                        self._state = now_state
+                        self._last_change = datetime.now(timezone.utc)
+                        logger.info(f"[{self._state.value}] Change status")
 
             logger.info(f"[{self._state.value}] Current status")
 
@@ -105,4 +102,9 @@ class IdleMonitor:
 
     def toggle_break(self):
         with self._lock:
-            self._is_break = not self._is_break
+            if self._state == IdleState.BREAK:
+                self._state = IdleState.ACTIVE
+            else:
+                self._state = IdleState.BREAK
+            self._last_change = datetime.now(timezone.utc)
+            logger.info(f"[{self._state.value}] Change status")
