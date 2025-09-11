@@ -9,17 +9,17 @@ import uvicorn
 
 from api.routes.health import router as health_router
 from api.routes.endpoints import router as endpoints_router
-from api.Observer import get_monitor
+from api.Observer import IdleMonitor
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    mon = get_monitor(threshold_idle_sec=300, poll_interval=1.0)
-    mon.start()
+    app.state.monitor = IdleMonitor(threshold_idle_sec=300, poll_interval=1.0)
+    app.state.monitor.start()
     try:
         yield
     finally:
-        mon.stop()
+        app.state.monitor.stop()
 
 
 class Api:

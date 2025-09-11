@@ -2,16 +2,15 @@ import time
 import ctypes
 import threading
 from enum import Enum
-from functools import lru_cache
 from logging import Logger, Formatter, handlers
 from datetime import datetime, timezone
-from zoneinfo import ZoneInfo
 
 
 logger = Logger(__name__)
 f = Formatter('%(asctime)s - [%(levelname)s] : %(message)s')
+dt_str = datetime.now().strftime("%Y%m%d_%H%M%S")
 handler = handlers.RotatingFileHandler(
-    rf'./state_{datetime.now(ZoneInfo("Asia/Tokyo")).isoformat()}.log',
+    rf'./state_{dt_str}.log',
     mode="a",
     encoding="utf-8"
 )
@@ -59,14 +58,9 @@ class IdleMonitor:
         self._last_change: datetime = datetime.now(timezone.utc)
         self._is_break: bool = False
 
-    def snapshot(self) -> dict:
+    def snapshot(self) -> str:
         with self._lock:
-            return {
-                "state": self._state,
-                "idle_seconds": round(self._idle_seconds, 3),
-                "last_change": self._last_change.isoformat(),
-                "threshold_idle": self.threshold,
-            }
+            return self._state.value
 
     def start(self):
         if self._thread and self._thread.is_alive():
@@ -75,37 +69,40 @@ class IdleMonitor:
         self._thread = threading.Thread(target=self._run, name="IdleMonitor", daemon=True)
         self._thread.start()
 
+        logger.info(f"[{self._state.value}] Start monitoring")
+
     def stop(self, timeout: float = 5.0):
         self._stop.set()
         if self._thread:
             self._thread.join(timeout=timeout)
 
+        logger.info(f"[{self._state.value}] Stop monitoring")
+
     def _run(self):
-        logger.info(f"[{self._state.value}] Start monitoring idle time")
         while not self._stop.is_set():
+            if self._state == IdleState.BREAK:
+                continue
+
             try:
                 idle = get_idle_seconds_windows()
             except Exception:
                 time.sleep(2.0)
                 continue
 
-            now_state = IdleState.ACTIVE if idle < self.threshold else IdleState.AFK
-            if self._is_break:
-                now_state = IdleState.BREAK
             with self._lock:
                 self._idle_seconds = idle
+
+                now_state = IdleState.ACTIVE if idle < self.threshold else IdleState.AFK
+
                 if now_state != self._state:
                     self._state = now_state
                     self._last_change = datetime.now(timezone.utc)
                     logger.info(f"[{self._state.value}] Change status")
+
+            logger.info(f"[{self._state.value}] Current status")
 
             time.sleep(self.interval)
 
     def toggle_break(self):
         with self._lock:
             self._is_break = not self._is_break
-
-
-@lru_cache(maxsize=1)
-def get_monitor(*, threshold_idle_sec: int = 300, poll_interval: float = 1.0) -> IdleMonitor:
-    return IdleMonitor(threshold_idle_sec=threshold_idle_sec, poll_interval=poll_interval)
