@@ -3,14 +3,14 @@ import ctypes
 import threading
 from enum import Enum
 from logging import Logger, Formatter, handlers
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
 
 
 logger = Logger(__name__)
 f = Formatter('%(asctime)s - [%(levelname)s] : %(message)s')
 dt_str = datetime.now().strftime("%Y%m%d_%H%M%S")
 handler = handlers.RotatingFileHandler(
-    rf'./state_{dt_str}.log',
+    rf'../state_{dt_str}.log',
     mode="a",
     encoding="utf-8"
 )
@@ -22,6 +22,76 @@ class IdleState(Enum):
     ACTIVE = "ACTIVE"
     AFK = "AFK"
     BREAK = "BREAK"
+
+
+class TimeKeeper:
+    def __init__(self, state: IdleState) -> None:
+        self.active_time = timedelta(0)
+        self.afk_time = timedelta(0)
+        self.break_time = timedelta(0)
+
+        self.std_active: datetime | None = None
+        self.std_afk: datetime | None = None
+        self.std_break: datetime | None = None
+
+        self.refresh(state)
+
+    @property
+    def str_active(self) -> str:
+        return f"{self.hh(self.active_time)}:{self.mm(self.active_time)}:{self.ss(self.active_time)}"
+
+    @property
+    def str_afk(self) -> str:
+        return f"{self.hh(self.afk_time)}:{self.mm(self.afk_time)}:{self.ss(self.afk_time)}"
+
+    @property
+    def str_break(self) -> str:
+        return f"{self.hh(self.break_time)}:{self.mm(self.break_time)}:{self.ss(self.break_time)}"
+
+    @staticmethod
+    def hh(target: timedelta) -> str:
+        return f"{target.seconds // 3600:02}"
+
+    @staticmethod
+    def mm(target: timedelta) -> str:
+        return f"{target.seconds // 60 % 60:02}"
+
+    @staticmethod
+    def ss(target: timedelta) -> str:
+        return f"{target.seconds % 60:02}"
+
+    def refresh(self, state: IdleState) -> None:
+        now = datetime.now()
+        if state == IdleState.ACTIVE:
+            if self.std_active is None:
+                self.std_active = now
+                self.std_afk = self.std_break = None
+            else:
+                self.active_time += now - self.std_active
+                self.std_active = now
+        elif state == IdleState.AFK:
+            if self.std_afk is None:
+                self.std_afk = now
+                self.std_active = self.std_break = None
+            else:
+                self.afk_time += now - self.std_afk
+                self.std_afk = now
+        elif state == IdleState.BREAK:
+            if self.std_break is None:
+                self.std_break = now
+                self.std_active = self.std_afk = None
+            else:
+                self.break_time += now - self.std_break
+                self.std_break = now
+
+    def reset(self) -> None:
+        self.active_time = timedelta(0)
+        self.afk_time = timedelta(0)
+        self.break_time = timedelta(0)
+
+        self.std_active = None
+        self.std_afk = None
+        self.std_break = None
 
 
 class LASTINPUTINFO(ctypes.Structure):
@@ -56,10 +126,16 @@ class IdleMonitor:
         self._idle_seconds: float = 0.0
         self._state: IdleState = IdleState.ACTIVE
         self._last_change: datetime = datetime.now(timezone.utc)
+        self._timekeeper = TimeKeeper(self._state)
 
-    def snapshot(self) -> str:
+    def snapshot(self) -> dict:
         with self._lock:
-            return self._state.value
+            return {
+                "state": self._state.value,
+                "active_time": self._timekeeper.str_active,
+                "afk_time": self._timekeeper.str_afk,
+                "break_time": self._timekeeper.str_break,
+            }
 
     def start(self):
         if self._thread and self._thread.is_alive():
@@ -71,6 +147,9 @@ class IdleMonitor:
         logger.info(f"[{self._state.value}] Start monitoring")
 
     def stop(self, timeout: float = 5.0):
+        with self._lock, open(f"../trace_{dt_str}.log", "a", encoding="utf-8") as log:
+            print(f"AVTIVE,AFK,BREAK\n{self._timekeeper.str_active},{self._timekeeper.str_afk},{self._timekeeper.str_break}", file=log)
+
         self._stop.set()
         if self._thread:
             self._thread.join(timeout=timeout)
@@ -96,6 +175,9 @@ class IdleMonitor:
                         self._last_change = datetime.now(timezone.utc)
                         logger.info(f"[{self._state.value}] Change status")
 
+            with self._lock:
+                self._timekeeper.refresh(self._state)
+
             logger.info(f"[{self._state.value}] Current status")
 
             time.sleep(self.interval)
@@ -108,3 +190,7 @@ class IdleMonitor:
                 self._state = IdleState.BREAK
             self._last_change = datetime.now(timezone.utc)
             logger.info(f"[{self._state.value}] Change status")
+
+    def reset_timekeeper(self) -> None:
+        with self._lock:
+            self._timekeeper.reset()
