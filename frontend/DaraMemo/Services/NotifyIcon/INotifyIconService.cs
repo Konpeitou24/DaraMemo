@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DaraMemo.Services
+namespace DaraMemo.Services.NotifyIcon
 {
     /// <summary>
     /// 通知アイコン操作に関するインターフェース

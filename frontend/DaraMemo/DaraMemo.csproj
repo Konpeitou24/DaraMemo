@@ -21,6 +21,7 @@
     <PackageReference Include="H.NotifyIcon.Wpf" Version="2.3.0" />
     <PackageReference Include="MahApps.Metro.IconPacks" Version="6.1.0" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="9.0.8" />
+    <PackageReference Include="Microsoft.Extensions.Http" Version="9.0.9" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.135" />
   </ItemGroup>
@@ -50,13 +51,16 @@
     <ProjectReference Include="..\DaraMemo.Core\DaraMemo.Core.csproj" />
     <ProjectReference Include="..\DaraMemo.Models\DaraMemo.Models.csproj" />
     <ProjectReference Include="..\DaraMemo.Tests\DaraMemo.Tests.csproj" />
-    <ProjectReference Include="..\Enums\Enums.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <None Update="appsettings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Services\NotifyIcon\" />
   </ItemGroup>
 
 </Project>

@@ -7,7 +7,7 @@ using System.Windows;
 using DaraMemo.Shell;
 using H.NotifyIcon;
 
-namespace DaraMemo.Services
+namespace DaraMemo.Services.NotifyIcon
 {
     public sealed class NotifyIconService : INotifyIconService
     {
@@ -29,7 +29,7 @@ namespace DaraMemo.Services
 
         public void HideNotifyIcon()
         {
-            _notifyIcon?.SetCurrentValue(TaskbarIcon.VisibilityProperty, Visibility.Collapsed);
+            _notifyIcon?.SetCurrentValue(UIElement.VisibilityProperty, Visibility.Collapsed);
         }
 
         public void ShowNotifyIcon()
@@ -38,7 +38,7 @@ namespace DaraMemo.Services
             _notifyIcon ??= GetNotifyIcon();
 
             // _notifyIcon が null でなけれは表示する
-            _notifyIcon?.SetCurrentValue(TaskbarIcon.VisibilityProperty, Visibility.Visible);
+            _notifyIcon?.SetCurrentValue(UIElement.VisibilityProperty, Visibility.Visible);
         }
 
         /// <summary>

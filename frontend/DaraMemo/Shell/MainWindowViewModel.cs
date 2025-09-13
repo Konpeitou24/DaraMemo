@@ -3,7 +3,7 @@ using System.ComponentModel;
 using System.Windows;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using DaraMemo.Services;
+using DaraMemo.Services.NotifyIcon;
 
 namespace DaraMemo.Shell {
     public partial class MainWindowViewModel : ObservableObject
