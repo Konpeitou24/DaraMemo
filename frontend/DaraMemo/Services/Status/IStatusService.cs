@@ -17,5 +17,7 @@ namespace DaraMemo.Services.Status {
         void ResetStatus(Action<SimpleOkResponse>? onCompleted = null);
 
         void KillServer(Action<SimpleOkResponse>? onCompleted = null);
+
+        Task<SimpleOkResponse> KillServerAsync();
     }
 }

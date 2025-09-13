@@ -29,6 +29,13 @@ namespace DaraMemo.Services.Status {
         public void KillServer(Action<SimpleOkResponse>? onCompleted = null)
             => RunTask(_statusApiClient.KillServerAsync, onCompleted);
 
+        public async Task<SimpleOkResponse>? KillServerAsync() {
+            try {
+                return await _statusApiClient.SetBreakStatusAsync();
+            } catch (Exception) {
+                throw;
+            }
+        }
 
         private void RunTask<T>(Func<Task<T>> taskFactory, Action<T>? onCompleted) {
             CurrentTask = taskFactory()
