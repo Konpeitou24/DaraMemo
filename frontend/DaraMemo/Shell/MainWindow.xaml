@@ -31,10 +31,15 @@
         </bh:EventTrigger>
     </bh:Interaction.Triggers>
     <DockPanel>
-        <StatusBar DockPanel.Dock="Bottom">
-            <Button Command="{Binding ReloadCommand}">
-                <iconPacks:PackIconCoolicons Kind="ArrowReload02" Foreground="{DynamicResource {x:Static SystemColors.AccentColorBrushKey}}"  ToolTip="{Binding ReloadButtonToolTip}"/>
-            </Button>
+        <StatusBar DockPanel.Dock="Bottom" HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch">
+            <StatusBarItem HorizontalAlignment="Stretch">
+                <Button Command="{Binding ReloadCommand}">
+                    <iconPacks:PackIconCoolicons Kind="ArrowReload02" Foreground="{DynamicResource {x:Static SystemColors.AccentColorBrushKey}}"  ToolTip="{Binding ReloadButtonToolTip}"/>
+                </Button>
+            </StatusBarItem>
+            <StatusBarItem HorizontalAlignment="Right">
+                <ProgressBar IsIndeterminate="{Binding IsBusy}"/>
+            </StatusBarItem>
         </StatusBar>
         <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" CanContentScroll="True">
             <Grid>
@@ -107,7 +112,7 @@
                              Content="最小化時にタスクトレイに格納する"
                              Cursor="Hand"
                              FontSize="16"
-                             IsChecked="{Binding IsMinimization}" />        
+                             IsChecked="{Binding IsMinimization}" />
                     </StackPanel>
                 </Grid>
             </Grid>

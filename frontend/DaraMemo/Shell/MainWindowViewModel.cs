@@ -74,7 +74,7 @@ namespace DaraMemo.Shell {
         private string? breakTimeSum;
 
 
-        private bool CanToggleBreak { get => _statusService.IsBusy!; }
+        private bool IsBusy { get => _statusService.IsBusy!; }
 
         // Reloadボタン
 
@@ -109,13 +109,13 @@ namespace DaraMemo.Shell {
             ReloadCommand.NotifyCanExecuteChanged();
         }
         // --- RelayCommand ---
-        [RelayCommand(CanExecute = nameof(CanToggleBreak))]
+        [RelayCommand(CanExecute = nameof(IsBusy))]
         private void Reload() {
             SetCurrentStatus();
             SetCurrentRecord();
         }
 
-        [RelayCommand(CanExecute = nameof(CanToggleBreak))]
+        [RelayCommand(CanExecute = nameof(IsBusy))]
         private void ToggleBreak() {
             _statusService.SetBreakStatus();
         }
