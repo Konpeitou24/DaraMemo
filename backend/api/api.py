@@ -14,7 +14,7 @@ from api.Observer import IdleMonitor
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    app.state.monitor = IdleMonitor(threshold_idle_sec=300, poll_interval=1.0)
+    app.state.monitor = IdleMonitor(threshold_idle_sec=3, poll_interval=1.0)
     app.state.monitor.start()
     try:
         yield

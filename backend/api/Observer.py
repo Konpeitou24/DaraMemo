@@ -116,7 +116,7 @@ def get_idle_seconds_windows() -> float:
     return idle_ms / 1000.0
 
 class IdleMonitor:
-    def __init__(self, threshold_idle_sec: int = 300, poll_interval: float = 1.0):
+    def __init__(self, threshold_idle_sec: int = 3, poll_interval: float = 1.0):
         self.threshold = float(threshold_idle_sec)
         self.interval = float(poll_interval)
         self._stop = threading.Event()
