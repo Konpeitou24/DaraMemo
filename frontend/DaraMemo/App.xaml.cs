@@ -23,7 +23,7 @@ namespace DaraMemo {
             var window = _host.Services.GetRequiredService<MainWindow>();
             window.Show();
 
-            _statusService = _host.Services.GetRequiredService<StatusService>();
+            _statusService = _host.Services.GetRequiredService<IStatusService>();
         }
         protected override async void OnExit(ExitEventArgs e) {
             // kill background process

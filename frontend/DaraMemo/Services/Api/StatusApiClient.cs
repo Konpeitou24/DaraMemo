@@ -13,35 +13,58 @@ namespace DaraMemo.Services.Api {
 
         // /api/status/current
         public async Task<StatusCurrentResponse> GetCurrentStatusAsync() {
-            var state = await _httpClient.GetStringAsync(RequestUriDataProvider.StatusCurrentEndpoint);
+            try {
+                var state = await _httpClient.GetStringAsync(RequestUriDataProvider.StatusCurrentEndpoint);
             return new StatusCurrentResponse { State = state };
+            } catch (Exception) {
+                throw;
+            }
         }
 
         // /api/status/set
         public async Task<SimpleOkResponse> SetBreakStatusAsync() {
-            var result = await _httpClient.GetStringAsync(RequestUriDataProvider.StatusSetEndpoint);
-            return new SimpleOkResponse { Result = result };
+            try {
+                var result = await _httpClient.GetStringAsync(RequestUriDataProvider.StatusSetEndpoint);
+                return new SimpleOkResponse { Result = result };
+            } catch (Exception) {
+                throw;
+            }
         }
 
         // /api/status/record
         public async Task<StatusRecordResponse> GetStatusRecordAsync() {
-            var response = await _httpClient.GetFromJsonAsync<StatusRecordResponse>(RequestUriDataProvider.StatusRecordEndpoint);
-            if (response == null) {
-                throw new InvalidOperationException("The response from /api/status/record was null.");
+            try {
+                var response = await _httpClient.GetFromJsonAsync<StatusRecordResponse>(RequestUriDataProvider.StatusRecordEndpoint);
+                if (response == null) {
+                    throw new InvalidOperationException("The response from /api/status/record was null.");
+                }
+                return response;
+            } catch (Exception) {
+
+                throw;
             }
-            return response;
         }
 
         // /api/status/reset
         public async Task<SimpleOkResponse> ResetStatusAsync() {
-            var result = await _httpClient.GetStringAsync(RequestUriDataProvider.StatusResetEndpoint);
-            return new SimpleOkResponse { Result = result };
+            try {
+                var result = await _httpClient.GetStringAsync(RequestUriDataProvider.StatusResetEndpoint);
+                return new SimpleOkResponse { Result = result };
+            } catch (Exception) {
+
+                throw;
+            }
         }
 
         // /api/status/kill
         public async Task<SimpleOkResponse> KillServerAsync() {
-            var result = await _httpClient.GetStringAsync(RequestUriDataProvider.StatusKillEndpoint);
-            return new SimpleOkResponse { Result = result };
+            try {
+                var result = await _httpClient.GetStringAsync(RequestUriDataProvider.StatusKillEndpoint);
+                return new SimpleOkResponse { Result = result };
+            } catch (Exception) {
+
+                throw;
+            }
         }
     }
 

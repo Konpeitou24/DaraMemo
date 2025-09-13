@@ -11,9 +11,6 @@
     <Window.Resources>
         <!--  トレイメニュー（アイコン右クリック時に表示させる）  -->
         <ContextMenu x:Key="TrayMenu">
-            <MenuItem Command="{Binding ShowSettingWindowCommand}"
-                      Cursor="Hand"
-                      Header="表示" />
             <MenuItem Command="{Binding ExitApplicationCommand}"
                       Cursor="Hand"
                       Header="終了" />
@@ -37,8 +34,8 @@
                     <iconPacks:PackIconCoolicons Kind="ArrowReload02" Foreground="{DynamicResource {x:Static SystemColors.AccentColorBrushKey}}"  ToolTip="{Binding ReloadButtonToolTip}"/>
                 </Button>
             </StatusBarItem>
-            <StatusBarItem HorizontalAlignment="Right">
-                <ProgressBar IsIndeterminate="{Binding IsBusy}"/>
+            <StatusBarItem HorizontalAlignment="Right" >
+                <ProgressBar IsIndeterminate="{Binding IsBusy}" Height="20" MinWidth="80"/>
             </StatusBarItem>
         </StatusBar>
         <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" CanContentScroll="True">
