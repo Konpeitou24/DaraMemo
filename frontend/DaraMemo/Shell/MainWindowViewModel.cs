@@ -73,9 +73,14 @@ namespace DaraMemo.Shell {
         [ObservableProperty]
         private string? breakTimeSum;
 
-
-        private bool IsBusy { get => _statusService.IsBusy!; }
-
+        [ObservableProperty]
+        private bool isBusy;
+        
+        private bool CanExecuteCommand {
+            get {
+                return _statusService.IsBusy!;
+            }
+        }
         // Reloadボタン
 
         [ObservableProperty]
@@ -107,15 +112,16 @@ namespace DaraMemo.Shell {
         private void  OnStatusServiceTaskIsBusyChanged(object? sender, EventArgs e) {
             ToggleBreakCommand.NotifyCanExecuteChanged();
             ReloadCommand.NotifyCanExecuteChanged();
+            IsBusy = _statusService.IsBusy;
         }
         // --- RelayCommand ---
-        [RelayCommand(CanExecute = nameof(IsBusy))]
+        [RelayCommand(CanExecute = nameof(CanExecuteCommand))]
         private void Reload() {
             SetCurrentStatus();
             SetCurrentRecord();
         }
 
-        [RelayCommand(CanExecute = nameof(IsBusy))]
+        [RelayCommand(CanExecute = nameof(CanExecuteCommand))]
         private void ToggleBreak() {
             _statusService.SetBreakStatus();
         }
