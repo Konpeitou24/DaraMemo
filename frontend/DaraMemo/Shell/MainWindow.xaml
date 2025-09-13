@@ -59,7 +59,8 @@
                        Content="{Binding AfkStatus, FallbackValue='AfkStatus'}" 
                        Margin="10" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
                         <Button Grid.Row="2" 
-                        Content="{Binding BreakButtonTitle, FallbackValue='BreakButtonTitle'}"  Margin="10"/>
+                        Content="{Binding BreakButtonTitle, FallbackValue='BreakButtonTitle'}"  Margin="10"
+                                Command="{Binding ToggleBreakCommand}"/>
                     </Grid>
                 </Expander>
 

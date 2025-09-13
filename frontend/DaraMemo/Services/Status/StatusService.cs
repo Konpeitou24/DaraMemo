@@ -1,5 +1,7 @@
 ﻿using DaraMemo.Models.Dtos;
 using DaraMemo.Services.Api;
+using System.Windows;
+using System.Windows.Threading;
 
 namespace DaraMemo.Services.Status {
     public class StatusService: IStatusService {
@@ -29,7 +31,7 @@ namespace DaraMemo.Services.Status {
         public void KillServer(Action<SimpleOkResponse>? onCompleted = null)
             => RunTask(_statusApiClient.KillServerAsync, onCompleted);
 
-        public async Task<SimpleOkResponse>? KillServerAsync() {
+        public async Task<SimpleOkResponse> KillServerAsync() {
             try {
                 return await _statusApiClient.SetBreakStatusAsync();
             } catch (Exception) {
@@ -43,7 +45,9 @@ namespace DaraMemo.Services.Status {
                     try {
                         if (task.Exception == null) {
                             T result = task.Result;
+
                             onCompleted?.Invoke(result);
+
                         } else {
                             Console.WriteLine("エラーが発生しました: " + task.Exception?.Message);
                         }

@@ -6,16 +6,14 @@ namespace DaraMemo.Services.Api {
 
     public class StatusApiClient {
         private readonly HttpClient _httpClient;
-        RequestUriDataProvider RequestUriDataProvider = new RequestUriDataProvider();
         public StatusApiClient(HttpClient httpClient) {
             _httpClient = httpClient;
         }
-
         // /api/status/current
         public async Task<StatusCurrentResponse> GetCurrentStatusAsync() {
             try {
-                var state = await _httpClient.GetStringAsync(RequestUriDataProvider.StatusCurrentEndpoint);
-            return new StatusCurrentResponse { State = state };
+                var state = await _httpClient.GetStringAsync(RequestUriData.BuildUri(RequestUriData.StatusCurrentEndpoint));
+            return new StatusCurrentResponse { Value = state.Replace("\"", string.Empty) };
             } catch (Exception) {
                 throw;
             }
@@ -24,8 +22,8 @@ namespace DaraMemo.Services.Api {
         // /api/status/set
         public async Task<SimpleOkResponse> SetBreakStatusAsync() {
             try {
-                var result = await _httpClient.GetStringAsync(RequestUriDataProvider.StatusSetEndpoint);
-                return new SimpleOkResponse { Result = result };
+                var result = await _httpClient.GetStringAsync(RequestUriData.BuildUri(RequestUriData.StatusSetEndpoint));
+                return new SimpleOkResponse { Value = result.Replace("\"", string.Empty) };
             } catch (Exception) {
                 throw;
             }
@@ -34,7 +32,7 @@ namespace DaraMemo.Services.Api {
         // /api/status/record
         public async Task<StatusRecordResponse> GetStatusRecordAsync() {
             try {
-                var response = await _httpClient.GetFromJsonAsync<StatusRecordResponse>(RequestUriDataProvider.StatusRecordEndpoint);
+                var response = await _httpClient.GetFromJsonAsync<StatusRecordResponse>(RequestUriData.BuildUri(RequestUriData.StatusRecordEndpoint));
                 if (response == null) {
                     throw new InvalidOperationException("The response from /api/status/record was null.");
                 }
@@ -48,8 +46,8 @@ namespace DaraMemo.Services.Api {
         // /api/status/reset
         public async Task<SimpleOkResponse> ResetStatusAsync() {
             try {
-                var result = await _httpClient.GetStringAsync(RequestUriDataProvider.StatusResetEndpoint);
-                return new SimpleOkResponse { Result = result };
+                var result = await _httpClient.GetStringAsync(RequestUriData.BuildUri(RequestUriData.StatusResetEndpoint));
+                return new SimpleOkResponse { Value = result };
             } catch (Exception) {
 
                 throw;
@@ -59,8 +57,8 @@ namespace DaraMemo.Services.Api {
         // /api/status/kill
         public async Task<SimpleOkResponse> KillServerAsync() {
             try {
-                var result = await _httpClient.GetStringAsync(RequestUriDataProvider.StatusKillEndpoint);
-                return new SimpleOkResponse { Result = result };
+                var result = await _httpClient.GetStringAsync(RequestUriData.BuildUri(RequestUriData.StatusKillEndpoint));
+                return new SimpleOkResponse { Value = result };
             } catch (Exception) {
 
                 throw;

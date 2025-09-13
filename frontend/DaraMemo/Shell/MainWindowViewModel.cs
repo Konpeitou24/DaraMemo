@@ -24,13 +24,13 @@ namespace DaraMemo.Shell {
         /// 閉じるボタンでタスクトレイに格納する
         /// </summary>
         [ObservableProperty]
-        private bool _isClosedTaskTray;
+        private bool _isClosedTaskTray = true;
 
         /// <summary>
         /// 最小化時にタスクトレイに格納する
         /// </summary>
         [ObservableProperty]
-        private bool _isMinimization;
+        private bool _isMinimization = false;
 
         [ObservableProperty]
         private ImageSource _taskbarIconImageSource = (ImageSource)Application.Current.Resources[Status.Afk.GetIcon()];
@@ -59,19 +59,19 @@ namespace DaraMemo.Shell {
         private string activeTimeSumTitle = MainResources.ActiveTimeSumTitle;
 
         [ObservableProperty]
-        private string? activeTimeSum ;
+        private string? activeTimeSum = "0:00:00";
 
         [ObservableProperty]
         private string afkTimeSumTitle = MainResources.AfkTimeSumTitle;
 
         [ObservableProperty]
-        private string? afkTimeSum;
+        private string? afkTimeSum = "0:00:00";
 
         [ObservableProperty]
         private string breakTimeSumTitle = MainResources.BreakTimeSumTitle;
 
         [ObservableProperty]
-        private string? breakTimeSum;
+        private string? breakTimeSum = "0:00:00";
 
         [ObservableProperty]
         private bool isBusy;
@@ -101,6 +101,7 @@ namespace DaraMemo.Shell {
         private void InitializeDispatcherTimer() {
             _dispatcherTimer.Interval = TimeSpan.FromSeconds(TimerInterval);
             _dispatcherTimer.Tick += OnTickDispatcherTimer;
+            _dispatcherTimer.Start();
         }
         private void InitializeStatusService() {
             _statusService.IsBusyChanged += OnStatusServiceTaskIsBusyChanged;
@@ -110,18 +111,24 @@ namespace DaraMemo.Shell {
             Reload();
         }
         private void  OnStatusServiceTaskIsBusyChanged(object? sender, EventArgs e) {
-            ToggleBreakCommand.NotifyCanExecuteChanged();
-            ReloadCommand.NotifyCanExecuteChanged();
-            IsBusy = _statusService.IsBusy;
+
+            Application.Current.Dispatcher.BeginInvoke(
+                () => {
+                    ToggleBreakCommand.NotifyCanExecuteChanged();
+                    ReloadCommand.NotifyCanExecuteChanged();
+                    IsBusy = _statusService.IsBusy;
+                }
+            );
+
         }
         // --- RelayCommand ---
-        [RelayCommand(CanExecute = nameof(CanExecuteCommand))]
+        [RelayCommand]
         private void Reload() {
             SetCurrentStatus();
             SetCurrentRecord();
         }
 
-        [RelayCommand(CanExecute = nameof(CanExecuteCommand))]
+        [RelayCommand]
         private void ToggleBreak() {
             _statusService.SetBreakStatus();
         }
@@ -191,11 +198,11 @@ namespace DaraMemo.Shell {
             _statusService.FetchCurrentStatus(
                 onCompleted => {
                     if (onCompleted is null) return;
-                    if (LookupStatus(onCompleted.State) == Status.Active) {
+                    if (LookupStatus(onCompleted.Value) == Status.Active) {
                         SetStatusActive();
-                    } else if (LookupStatus(onCompleted.State) == Status.Afk) {
+                    } else if (LookupStatus(onCompleted.Value) == Status.Afk) {
                         SetStatusAfk();
-                    } else if (LookupStatus(onCompleted.State) == Status.Break) {
+                    } else if (LookupStatus(onCompleted.Value) == Status.Break) {
                         SetStatusBreak();
                     }
                 }
