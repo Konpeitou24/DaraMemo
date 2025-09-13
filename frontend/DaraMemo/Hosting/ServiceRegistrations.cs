@@ -1,4 +1,5 @@
 ﻿using DaraMemo.Services.Api;
+using DaraMemo.Services.NotifyIcon;
 using DaraMemo.Services.Status;
 using DaraMemo.Shell;
 using Microsoft.Extensions.DependencyInjection;
@@ -8,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Threading;
 
 namespace DaraMemo.Hosting {
     public static class ServiceRegistrations {
@@ -15,6 +17,8 @@ namespace DaraMemo.Hosting {
             services.AddSingleton<MainWindow>(); // MainWindow を DI コンテナに登録
             services.AddTransient<MainWindowViewModel>(); // MainWindowViewModel を DI コンテナに登録
             services.AddTransient<IStatusService, StatusService>();
+            services.AddTransient<INotifyIconService, NotifyIconService>();
+            services.AddTransient<DispatcherTimer>();
             services.AddHttpClients();
         }
         private static void AddHttpClients(this IServiceCollection services) {

@@ -25,5 +25,9 @@ namespace DaraMemo.Services.NotifyIcon
         /// 通知アイコン非表示
         /// </summary>
         void HideNotifyIcon();
+        /// <summary>
+        /// 終了時用の初期化を行う。
+        /// </summary>
+        void KillNotifyIcon();
     }
 }

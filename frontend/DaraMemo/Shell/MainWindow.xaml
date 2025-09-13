@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:DaraMemo"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:tb="clr-namespace:H.NotifyIcon;assembly=H.NotifyIcon.Wpf"
+        Icon="{Binding TaskbarIconImageSource}"
         Title="{Binding Title}" Width="400" Height="700">
     <Window.Resources>
         <!--  トレイメニュー（アイコン右クリック時に表示させる）  -->
@@ -31,7 +32,7 @@
     </bh:Interaction.Triggers>
     <DockPanel>
         <StatusBar DockPanel.Dock="Bottom">
-            <Button Command="{Binding Reload}">
+            <Button Command="{Binding ReloadCommand}">
                 <iconPacks:PackIconCoolicons Kind="ArrowReload02" Foreground="{DynamicResource {x:Static SystemColors.AccentColorBrushKey}}"  ToolTip="{Binding ReloadButtonToolTip}"/>
             </Button>
         </StatusBar>
@@ -74,15 +75,15 @@
 
                             <Label Grid.Row="0" Content="{Binding ActiveTimeSumTitle, FallbackValue='ActiveTimeSum'}" Margin="10"/>
                             <Label Grid.Row="1" FontSize="24" 
-                           Content="{Binding ActiveTimeSum, FallbackValue='0:00:00'}" 
+                                Content="{Binding ActiveTimeSum, FallbackValue='0:00:00'}" 
                            Margin="10" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
                             <Label Grid.Row="2" Content="{Binding AfkTimeSumTitle, FallbackValue='AfkTimeSum'}" Margin="10"/>
                             <Label Grid.Row="3" FontSize="24" 
-                           Content="{Binding AfkTimeSum, FallbackValue='0:00:00'}" 
+                                Content="{Binding AfkTimeSum, FallbackValue='0:00:00'}" 
                            Margin="10" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
                             <Label Grid.Row="4" Content="{Binding BreakTimeSumTitle, FallbackValue='BreakTimeSum'}" Margin="10"/>
                             <Label Grid.Row="5" FontSize="24" 
-                           Content="{Binding BreakTimeSum, FallbackValue='0:00:00'}" 
+                                Content="{Binding BreakTimeSum, FallbackValue='0:00:00'}" 
                            Margin="10" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
                         </Grid>
                     </Expander>
@@ -92,9 +93,7 @@
                     <tb:TaskbarIcon x:Name="TrayIcon"
                      ContextMenu="{StaticResource TrayMenu}"
                      DoubleClickCommand="{Binding ShowWindowCommand}"
-                     IconSource="pack://application:,,,/DaraMemo;component/Assets/blue.ico"
-                     Visibility="Visible" />    
-                    <!-- ↑起動時はタスクトレイアイコンを表示しない -->
+                     IconSource="{Binding TaskbarIconImageSource}" />    
                     <!--#endregion-->
 
                     <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">

@@ -8,6 +8,10 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/PresentationFramework.Fluent;component/Themes/Fluent.xaml" />
             </ResourceDictionary.MergedDictionaries>
+            
+            <BitmapImage x:Key="BreakIcon" UriSource="pack://application:,,,/Assets/blue.ico"/>
+            <BitmapImage x:Key="AfkIcon" UriSource="pack://application:,,,/Assets/red.ico"/>
+            <BitmapImage x:Key="ActiveIcon" UriSource="pack://application:,,,/Assets/blue.ico"/>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

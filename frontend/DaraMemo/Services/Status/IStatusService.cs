@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace DaraMemo.Services.Status {
     public interface IStatusService {
         bool IsBusy { get; }
-
+        event EventHandler IsBusyChanged;
         void FetchCurrentStatus(Action<StatusCurrentResponse>? onCompleted = null);
         void FetchStatusRecord(Action<StatusRecordResponse>? onCompleted = null);
 

@@ -1,5 +1,6 @@
 ﻿using DaraMemo.Hosting;
 using DaraMemo.Shell;
+using H.NotifyIcon;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
@@ -11,7 +12,6 @@ namespace DaraMemo {
 
         protected override void OnStartup(StartupEventArgs e) {
             base.OnStartup(e);
-
             _host = Host.CreateDefaultBuilder()
                 .SuperBuild();
 

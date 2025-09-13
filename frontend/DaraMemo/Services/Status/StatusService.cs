@@ -4,12 +4,13 @@ using DaraMemo.Services.Api;
 namespace DaraMemo.Services.Status {
     public class StatusService: IStatusService {
         private readonly StatusApiClient _statusApiClient;
-
+        public event EventHandler IsBusyChanged = delegate { };
         /// <summary>
         /// Gets or sets the currently active task.
         /// </summary>
         public Task? CurrentTask { get; private set; } =  null;
-        public bool IsBusy { get => CurrentTask != null && !CurrentTask.IsCompleted; }
+        public bool IsBusy => CurrentTask != null && !CurrentTask.IsCompleted;
+
         public StatusService(StatusApiClient statusApiClient) {
             _statusApiClient = statusApiClient;
         }
@@ -41,6 +42,7 @@ namespace DaraMemo.Services.Status {
                         }
                     } finally {
                         CurrentTask = null;
+                        IsBusyChanged.Invoke(this, EventArgs.Empty);
                     }
                 });
         }
