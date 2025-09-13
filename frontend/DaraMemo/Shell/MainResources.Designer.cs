@@ -124,7 +124,7 @@ namespace DaraMemo.Shell {
         }
         
         /// <summary>
-        ///   休憩を開始 に類似しているローカライズされた文字列を検索します。
+        ///   モード切替 に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string BreakButtonTitle {
             get {
